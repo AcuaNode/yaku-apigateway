@@ -1,0 +1,32 @@
+server:
+  port: 8080  # El puerto único para el Frontend
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        # Rutas hacia el microservicio de IAM
+        - id: iam-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/users/**
+
+        # Rutas hacia el microservicio de Equipment
+        - id: equipment-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/farms/**, /api/v1/ponds/**, /api/v1/equipment/**
+
+        # Rutas hacia el microservicio de Notification
+        - id: notification-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/v1/users/*/notifications/**, /api/v1/users/*/device-tokens/**, /api/v1/webhooks/notifications/**
+
+        # Rutas hacia el microservicio de Subscription
+        - id: subscription-service
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/v1/subscriptions/**, /api/v1/plans/**, /api/v1/payments/**, /api/v1/webhooks/stripe/**
