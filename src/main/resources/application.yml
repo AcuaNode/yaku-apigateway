@@ -1,6 +1,22 @@
 server:
   port: 8080  # El puerto único para el Frontend
 
+jwt:
+  secret: WriteHereYourSecretStringForTokenSigningCredentials
+
+gateway:
+  public-paths:
+    - /api/v1/users/signup
+    - /api/v1/users/signin
+    - /api/v1/users/available-roles
+    - /v3/api-docs
+    - /swagger-ui
+    - /swagger-ui.html
+    - /swagger-resources
+    - /webjars
+    - /error
+    - /actuator
+
 spring:
   application:
     name: api-gateway
