@@ -13,6 +13,12 @@ spring:
           predicates:
             - Path=/api/v1/users/**
 
+        # Rutas hacia el microservicio de IAM (farm tokens) (DENTRO DE IAM CONTEXT)
+        - id: iam-service-farm-tokens
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/iam/**
+
         # Rutas hacia el microservicio de Equipment
         - id: equipment-service
           uri: http://localhost:8081
