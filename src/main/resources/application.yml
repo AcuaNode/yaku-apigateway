@@ -20,20 +20,19 @@ gateway:
 spring:
   application:
     name: api-gateway
+  datasource:
+    url: jdbc:postgresql://localhost:5434/yaku_iam
+    username: root
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  kafka:
+    bootstrap-servers: localhost:9092
   cloud:
     gateway:
       routes:
-        # Rutas hacia el microservicio de IAM
-        - id: iam-service
-          uri: http://localhost:8082
-          predicates:
-            - Path=/api/v1/users/**
-
-        # Rutas hacia el microservicio de IAM (farm tokens) (DENTRO DE IAM CONTEXT)
-        - id: iam-service-farm-tokens
-          uri: http://localhost:8082
-          predicates:
-            - Path=/api/v1/iam/**
 
         # Rutas hacia el microservicio de Equipment
         - id: equipment-service
@@ -52,3 +51,12 @@ spring:
           uri: http://localhost:8084
           predicates:
             - Path=/api/v1/subscriptions/**, /api/v1/plans/**, /api/v1/payments/**, /api/v1/webhooks/stripe/**
+authorization:
+  jwt:
+    secret: WriteHereYourSecretStringForTokenSigningCredentials
+    expiration:
+      days: 7
+documentation:
+  application:
+    description: Yaku API Gateway
+    version: 1.0.0
