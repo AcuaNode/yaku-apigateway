@@ -75,19 +75,22 @@ public class WebSecurityConfiguration {
         http
                 .cors(cors -> cors.configurationSource(request -> {
                     var corsConfig = new CorsConfiguration();
-                    corsConfig.setAllowedOrigins(List.of("http://localhost:4200"));
+                    corsConfig.setAllowedOriginPatterns(List.of("*"));
                     corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-                    corsConfig.setAllowedHeaders(List.of("*"));
+                    corsConfig.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
                     corsConfig.setAllowCredentials(true);
                     return corsConfig;
                 }))
                 .csrf(csrf -> csrf.disable())
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(unauthorizedRequestHandler))
                 .authorizeExchange(auth -> auth
+                        .pathMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
                         .pathMatchers("/api/v1/users/signup", "/api/v1/users/signup/**").permitAll()
                         .pathMatchers("/api/v1/users/signin", "/api/v1/users/signin/**").permitAll()
                         .pathMatchers(
                                 "/api/v1/users/available-roles",
+                                "/api/v1/plans",
+                                "/api/v1/plans/**",
                                 "/v3/api-docs/**",
                                 "/signup",
                                 "/swagger-ui.html",

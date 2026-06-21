@@ -25,6 +25,7 @@ public record UserResource(
     boolean isVerified,
     boolean active,
     List<String> roles,
+    Long assignedFarmId,
     Date createdAt,
     Date updatedAt
 ) {

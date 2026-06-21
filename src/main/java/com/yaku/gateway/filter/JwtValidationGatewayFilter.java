@@ -35,6 +35,11 @@ public class JwtValidationGatewayFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String path = exchange.getRequest().getURI().getPath();
 
+        if (exchange.getRequest().getMethod().name().equals("OPTIONS")) {
+            LOGGER.debug("Skipping JWT validation for OPTIONS preflight");
+            return chain.filter(exchange);
+        }
+
         if (isPublicPath(path)) {
             LOGGER.debug("Skipping JWT validation for public path: {}", path);
             return chain.filter(exchange);

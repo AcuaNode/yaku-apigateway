@@ -33,6 +33,11 @@ public class BearerAuthenticationWebFilter implements WebFilter {
         String path = exchange.getRequest().getURI().getPath();
         LOGGER.debug("Incoming request to: {}", path);
 
+        if (exchange.getRequest().getMethod().name().equals("OPTIONS")) {
+            LOGGER.debug("🟢 OPTIONS preflight request, skipping JWT validation");
+            return chain.filter(exchange);
+        }
+
         if (isPublicPath(path)) {
             LOGGER.debug("🟢 Public path ({}), skipping JWT validation", path);
             return chain.filter(exchange);
@@ -73,6 +78,7 @@ public class BearerAuthenticationWebFilter implements WebFilter {
         return path.contains("/api/v1/users/signup") ||
                path.contains("/api/v1/users/signin") ||
                path.contains("/api/v1/users/available-roles") ||
+               path.contains("/api/v1/plans") ||
                path.contains("/v3/api-docs") ||
                path.contains("/swagger-ui") ||
                path.contains("/swagger-resources") ||

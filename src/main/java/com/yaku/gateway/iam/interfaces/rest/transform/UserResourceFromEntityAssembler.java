@@ -35,6 +35,7 @@ public class UserResourceFromEntityAssembler {
                 user.isVerified(),
                 user.getActive(),
                 roleNames,
+                user.getAssignedFarmId(),
                 user.getCreatedAt(),
                 user.getUpdatedAt()
         );
