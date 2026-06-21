@@ -51,6 +51,12 @@ spring:
           uri: http://localhost:8084
           predicates:
             - Path=/api/v1/subscriptions/**, /api/v1/plans/**, /api/v1/payments/**, /api/v1/webhooks/stripe/**
+
+        # Rutas hacia el microservicio de Telemetry
+        - id: telemetry-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/telemetry/**
 authorization:
   jwt:
     secret: WriteHereYourSecretStringForTokenSigningCredentials
